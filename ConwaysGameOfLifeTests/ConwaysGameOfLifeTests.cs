@@ -1,4 +1,3 @@
-using System;
 using ConwaysGameOfLife;
 using Moq;
 using Xunit;
@@ -43,38 +42,6 @@ namespace ConwaysGameOfLifeTests
             var world = new World(new Area{Length = 50, Width = 80});
             
             Assert.Equal(4000, world.GetSize());
-        }
-    }
-
-    public interface IOutputWriter
-    {
-        void Write(string message);
-    }
-
-    public class OutputWriter : IOutputWriter
-    {
-        public void Write(string message)
-        {
-            Console.WriteLine(message);
-        }
-    }
-
-    public class GameOfLife
-    {
-        public IOutputWriter OutputWriter { get; set; }
-
-        public GameOfLife(IOutputWriter outputWriter)
-        {
-            OutputWriter = outputWriter;
-        }
-        
-        public void SetNewWorld(string inputDimensions)
-        {
-            OutputWriter.Write("                              \n" +
-                               "                              \n" +
-                               "                              \n" +
-                               "                              \n" +
-                               "                              \n");
         }
     }
 }
