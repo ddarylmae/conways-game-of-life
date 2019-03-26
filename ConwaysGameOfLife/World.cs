@@ -1,29 +1,23 @@
-using System.Diagnostics;
-
 namespace ConwaysGameOfLife
 {
     public class World
     {
-        private bool[] Grid;
+        private bool[] _grid;
 
-        public World(string dimensionInput)
+        public World(Area area)
         {
-            InitialiseWorldFromSizeInput(dimensionInput);
+            InitialiseWorld(area);
         }
 
-        public void InitialiseWorldFromSizeInput(string dimensionInput)
+        private void InitialiseWorld(Area area)
         {
-            var dimensions = dimensionInput.Split('X');
-            var length = dimensions[0];
-            var width = dimensions[1];
-
-            var gridSize = int.Parse(length) * int.Parse(width);
-            Grid = new bool[gridSize];
+            var gridSize = area.Length * area.Width;
+            _grid = new bool[gridSize];
         }
         
         public int GetSize()
         {
-            return Grid.Length;
+            return _grid.Length;
         }
     }
 }
