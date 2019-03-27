@@ -11,7 +11,7 @@ namespace ConwaysGameOfLife
         
         public string GetNewState(string currentState)
         {
-            return "   \n   \n   ";
+            return "---\n---\n---";
         }
     }
 }

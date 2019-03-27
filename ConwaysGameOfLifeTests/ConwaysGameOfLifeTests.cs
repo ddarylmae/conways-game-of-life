@@ -14,16 +14,31 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldInitialiseGameOfLifeWith3X3WorldNoInitialState()
+        public void ShouldReturnNewStateWithNoLiveCellWhenCurrentStateHasNoLiveCell()
         {
             var gameOfLife = new GameOfLife();
 
-            var inputState = "   \n   \n   ";
-            var expectedState = "   \n   \n   ";
+            var inputState = "3,3\n" + 
+                             "---\n---\n---";
+            var expectedState = "---\n---\n---";
 
             var newState = gameOfLife.GetNewState(inputState);
             
             Assert.Equal(expectedState, newState);
+        }
+        
+        [Fact]
+        public void ShouldReturnNewStateWithNoLiveCellWhenCurrentStateHasNoLiveCellAndNoLiveNeighbours()
+        {
+            var gameOfLife = new GameOfLife();
+
+            var inputState = "3,3\n" + 
+                             "---\n-#-\n---";
+            var expectedState = "---\n---\n---";
+
+            var returnedState = gameOfLife.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
         }
     }
 }
