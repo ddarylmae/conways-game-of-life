@@ -14,34 +14,16 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldInitialiseGameOfLifeWith50X40World()
+        public void ShouldInitialiseGameOfLifeWith3X3WorldNoInitialState()
         {
-            var gameOfLife = new GameOfLife(_mockWriter.Object);
+            var gameOfLife = new GameOfLife();
 
-            gameOfLife.SetNewWorld("50X30");
+            var inputState = "   \n   \n   ";
+            var expectedState = "   \n   \n   ";
 
-            _mockWriter.Verify(x => x.Write(
-                "                              \n" +
-                         "                              \n" +
-                         "                              \n" +  
-                         "                              \n" +
-                         "                              \n"));
-        }
-        
-        [Fact]
-        public void ShouldInitialiseWith50X30World()
-        {
-            var world = new World(new Area{Length = 50, Width = 30});
+            var newState = gameOfLife.GetNewState(inputState);
             
-            Assert.Equal(1500, world.GetSize());
-        }
-        
-        [Fact]
-        public void ShouldInitialise50X80World()
-        {
-            var world = new World(new Area{Length = 50, Width = 80});
-            
-            Assert.Equal(4000, world.GetSize());
+            Assert.Equal(expectedState, newState);
         }
     }
 }

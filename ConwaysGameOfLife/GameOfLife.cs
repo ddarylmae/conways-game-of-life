@@ -4,20 +4,14 @@ namespace ConwaysGameOfLife
 {
     public class GameOfLife
     {
-        public IOutputWriter OutputWriter { get; set; }
-
-        public GameOfLife(IOutputWriter outputWriter)
+        public GameOfLife()
         {
-            OutputWriter = outputWriter;
+            
         }
         
-        public void SetNewWorld(string inputDimensions)
+        public string GetNewState(string currentState)
         {
-            OutputWriter.Write("                              \n" +
-                               "                              \n" +
-                               "                              \n" +
-                               "                              \n" +
-                               "                              \n");
+            return "   \n   \n   ";
         }
     }
 }
