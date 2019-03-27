@@ -14,13 +14,15 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldReturnNewStateWithNoLiveCellWhenCurrentStateHasNoLiveCell()
+        public void ShouldReturnDeadStateWhenCellIsDead()
         {
             var gameOfLife = new GameOfLife();
-
+            
             var inputState = "3,3\n" + 
-                             "---\n---\n---";
-            var expectedState = "---\n---\n---";
+                             "   \n" +
+                             "   \n" +
+                             "   ";
+            var expectedState = " ";
 
             var newState = gameOfLife.GetNewState(inputState);
             
@@ -28,13 +30,31 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnNewStateWithNoLiveCellWhenCurrentStateHasNoLiveCellAndNoLiveNeighbours()
+        public void ShouldReturnDeadStateWhenCellIsLiveAndNoLiveNeighbour()
         {
             var gameOfLife = new GameOfLife();
 
             var inputState = "3,3\n" + 
-                             "---\n-#-\n---";
-            var expectedState = "---\n---\n---";
+                             "   \n" +
+                             " # \n" +
+                             "   ";
+            var expectedState = " ";
+
+            var returnedState = gameOfLife.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
+        
+        [Fact]
+        public void ShouldReturnDeadStateWhenCellIsLiveAndHasOneLiveNeighbour()
+        {
+            var gameOfLife = new GameOfLife();
+
+            var inputState = "3,3\n" + 
+                             "#  \n" +
+                             " # \n" +
+                             "   ";
+            var expectedState = " ";
 
             var returnedState = gameOfLife.GetNewState(inputState);
             
