@@ -14,7 +14,7 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldInitialiseGameOfLife()
+        public void ShouldInitialiseGameOfLifeWith50X40World()
         {
             var gameOfLife = new GameOfLife(_mockWriter.Object);
 
@@ -23,7 +23,7 @@ namespace ConwaysGameOfLifeTests
             _mockWriter.Verify(x => x.Write(
                 "                              \n" +
                          "                              \n" +
-                         "                              \n" +
+                         "                              \n" +  
                          "                              \n" +
                          "                              \n"));
         }

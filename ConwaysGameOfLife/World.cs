@@ -2,7 +2,7 @@ namespace ConwaysGameOfLife
 {
     public class World
     {
-        private bool[] _grid;
+        private bool[,] _grid;
 
         public World(Area area)
         {
@@ -11,8 +11,7 @@ namespace ConwaysGameOfLife
 
         private void InitialiseWorld(Area area)
         {
-            var gridSize = area.Length * area.Width;
-            _grid = new bool[gridSize];
+            _grid = new bool[area.Length,area.Width];
         }
         
         public int GetSize()
