@@ -14,12 +14,11 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldReturnDeadStateWhenCellIsDead()
+        public void ShouldReturnDeadStateWhenDeadCellHasNoLiveNeighbour()
         {
             var gameOfLife = new GameOfLife();
             
-            var inputState = "3,3\n" + 
-                             "   \n" +
+            var inputState = "   \n" +
                              "   \n" +
                              "   ";
             var expectedState = " ";
@@ -30,12 +29,11 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnDeadStateWhenCellIsLiveAndNoLiveNeighbour()
+        public void ShouldReturnDeadStateWhenLiveCellHasNoLiveNeighbour()
         {
             var gameOfLife = new GameOfLife();
 
-            var inputState = "3,3\n" + 
-                             "   \n" +
+            var inputState = "   \n" +
                              " # \n" +
                              "   ";
             var expectedState = " ";
@@ -46,15 +44,29 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnDeadStateWhenCellIsLiveAndHasOneLiveNeighbour()
+        public void ShouldReturnDeadStateWhenDeadCellHasOneLiveNeighbour()
         {
             var gameOfLife = new GameOfLife();
 
-            var inputState = "3,3\n" + 
-                             "#  \n" +
+            var inputState = "#  \n" +
                              " # \n" +
                              "   ";
             var expectedState = " ";
+
+            var returnedState = gameOfLife.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
+        
+        [Fact]
+        public void ShouldReturnLiveStateWhenLiveCellHasTwoLiveNeighbours()
+        {
+            var gameOfLife = new GameOfLife();
+
+            var inputState = "#  \n" +
+                             " ##\n" +
+                             "   ";
+            var expectedState = "#";
 
             var returnedState = gameOfLife.GetNewState(inputState);
             
