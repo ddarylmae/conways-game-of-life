@@ -14,12 +14,15 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldReturnDeadStateWhenDeadCellHasNoLiveNeighbour()
+        public void ShouldReturnEmptyWorldWhenNoLiveCell()
         {   
-            var inputState = "   \n" +
-                             "   \n" +
-                             "   ";
-            var expectedState = CellState.Dead;
+            var inputState = "3,3\n" +
+                             "...\n" +
+                             "...\n" +
+                             "...";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   ";
 
             var newState = Game.GetNewState(inputState);
             
@@ -27,12 +30,15 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnDeadStateWhenLiveCellHasNoLiveNeighbour()
+        public void ShouldReturnEmptyWorldWhenOneLiveCellPresent()
         {
-            var inputState = "   \n" +
-                             " # \n" +
-                             "   ";
-            var expectedState = CellState.Dead;
+            var inputState = "3,3\n" +
+                             "...\n" +
+                             ".#.\n" +
+                             "...";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   ";
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -40,12 +46,15 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnDeadStateWhenDeadCellHasOneLiveNeighbour()
+        public void ShouldReturnEmptyWorldWhenTwoLiveCellsPresent()
         {
-            var inputState = "#  \n" +
-                             " # \n" +
-                             "   ";
-            var expectedState = CellState.Dead;
+            var inputState = "3,3\n" +
+                             ".#.\n" +
+                             ".#.\n" +
+                             "...";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   ";
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -53,42 +62,47 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldReturnLiveStateWhenLiveCellHasTwoLiveNeighbours()
+        public void ShouldReturnNewStateWhenThreeLiveCellsPresent()
         {
-            var inputState = "#  \n" +
+            var inputState = "3,3\n" +
+                             "#  \n" +
                              " ##\n" +
                              "   ";
-            var expectedState = CellState.Live;
+            var expectedState = "   \n" +
+                                " # \n" +
+                                "   ";
 
             var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
         
-        [Fact]
-        public void ShouldReturnLiveStateWhenLiveCellHasThreeLiveNeighbours()
-        {
-            var inputState = "#  \n" +
-                             "###\n" +
-                             "   ";
-            var expectedState = CellState.Live;
-
-            var returnedState = Game.GetNewState(inputState);
-            
-            Assert.Equal(expectedState, returnedState);
-        }
-        
-        [Fact]
-        public void ShouldReturnDeadStateWhenLiveCellHasFourLiveNeighbours()
-        {
-            var inputState = "#  \n" +
-                             "###\n" +
-                             " # ";
-            var expectedState = CellState.Dead;
-
-            var returnedState = Game.GetNewState(inputState);
-            
-            Assert.Equal(expectedState, returnedState);
-        }
+//        [Fact]
+//        public void ShouldReturnNewStateWhenFourLiveCellsPresent()
+//        {
+//            var inputState = "#  \n" +
+//                             "###\n" +
+//                             "   ";
+//            var expectedState = "#  \n" +
+//                                "## \n" +
+//                                "# #";
+//
+//            var returnedState = Game.GetNewState(inputState);
+//            
+//            Assert.Equal(expectedState, returnedState);
+//        }
+//        
+//        [Fact]
+//        public void ShouldReturnNewStateWhenFiveLiveCellsPresent()
+//        {
+//            var inputState = "#  \n" +
+//                             "###\n" +
+//                             " # ";
+//            var expectedState = CellState.Dead;
+//
+//            var returnedState = Game.GetNewState(inputState);
+//            
+//            Assert.Equal(expectedState, returnedState);
+//        }
     }
 }
