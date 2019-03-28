@@ -10,18 +10,18 @@ namespace ConwaysGameOfLife
             
         }
         
-        public string GetNewState(string currentState)
+        public CellState GetNewState(string currentState)
         {
             var lines = currentState.Split('\n');
             
-            var cell = lines[1][1].ToString();
+            var cellValue = lines[1][1].ToString();
             
-            if (cell == "#" && GetLiveNeighboursCount(currentState) > 2 && GetLiveNeighboursCount(currentState) < 5)
+            if (cellValue == "#" && GetLiveNeighboursCount(currentState) > 2 && GetLiveNeighboursCount(currentState) < 5)
             {
-                return "#";
+                return CellState.Live;
             }
 
-            return " ";
+            return CellState.Dead;
         }
 
         private int GetLiveNeighboursCount(string currentState)

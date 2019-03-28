@@ -19,7 +19,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "   \n" +
                              "   \n" +
                              "   ";
-            var expectedState = " ";
+            var expectedState = CellState.Dead;
 
             var newState = Game.GetNewState(inputState);
             
@@ -32,7 +32,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "   \n" +
                              " # \n" +
                              "   ";
-            var expectedState = " ";
+            var expectedState = CellState.Dead;
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -45,7 +45,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "#  \n" +
                              " # \n" +
                              "   ";
-            var expectedState = " ";
+            var expectedState = CellState.Dead;
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -58,7 +58,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "#  \n" +
                              " ##\n" +
                              "   ";
-            var expectedState = "#";
+            var expectedState = CellState.Live;
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -71,7 +71,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "#  \n" +
                              "###\n" +
                              "   ";
-            var expectedState = "#";
+            var expectedState = CellState.Live;
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -84,7 +84,7 @@ namespace ConwaysGameOfLifeTests
             var inputState = "#  \n" +
                              "###\n" +
                              " # ";
-            var expectedState = " ";
+            var expectedState = CellState.Dead;
 
             var returnedState = Game.GetNewState(inputState);
             
