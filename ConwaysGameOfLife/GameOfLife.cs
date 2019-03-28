@@ -16,12 +16,17 @@ namespace ConwaysGameOfLife
             
             var cell = lines[1][1].ToString();
             
-            if (cell == "#" && currentState.Count(c => c == '#') > 2)
+            if (cell == "#" && GetLiveNeighboursCount(currentState) > 2 && GetLiveNeighboursCount(currentState) < 5)
             {
                 return "#";
             }
 
             return " ";
+        }
+
+        private int GetLiveNeighboursCount(string currentState)
+        {
+            return currentState.Count(c => c == '#');
         }
     }
 }

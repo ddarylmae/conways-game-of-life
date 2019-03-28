@@ -72,5 +72,35 @@ namespace ConwaysGameOfLifeTests
             
             Assert.Equal(expectedState, returnedState);
         }
+        
+        [Fact]
+        public void ShouldReturnLiveStateWhenLiveCellHasThreeLiveNeighbours()
+        {
+            var gameOfLife = new GameOfLife();
+
+            var inputState = "#  \n" +
+                             "###\n" +
+                             "   ";
+            var expectedState = "#";
+
+            var returnedState = gameOfLife.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
+        
+        [Fact]
+        public void ShouldReturnDeadStateWhenLiveCellHasFourLiveNeighbours()
+        {
+            var gameOfLife = new GameOfLife();
+
+            var inputState = "#  \n" +
+                             "###\n" +
+                             " # ";
+            var expectedState = " ";
+
+            var returnedState = gameOfLife.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
     }
 }
