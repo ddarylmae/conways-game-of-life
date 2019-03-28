@@ -6,24 +6,22 @@ namespace ConwaysGameOfLifeTests
 {
     public class ConwaysGameOfLifeTests
     {
-        private Mock<IOutputWriter> _mockWriter;
+        private GameOfLife Game { get; set; }
 
         public ConwaysGameOfLifeTests()
         {
-            _mockWriter = new Mock<IOutputWriter>();
+            Game = new GameOfLife();
         }
 
         [Fact]
         public void ShouldReturnDeadStateWhenDeadCellHasNoLiveNeighbour()
-        {
-            var gameOfLife = new GameOfLife();
-            
+        {   
             var inputState = "   \n" +
                              "   \n" +
                              "   ";
             var expectedState = " ";
 
-            var newState = gameOfLife.GetNewState(inputState);
+            var newState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, newState);
         }
@@ -31,14 +29,12 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnDeadStateWhenLiveCellHasNoLiveNeighbour()
         {
-            var gameOfLife = new GameOfLife();
-
             var inputState = "   \n" +
                              " # \n" +
                              "   ";
             var expectedState = " ";
 
-            var returnedState = gameOfLife.GetNewState(inputState);
+            var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
@@ -46,14 +42,12 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnDeadStateWhenDeadCellHasOneLiveNeighbour()
         {
-            var gameOfLife = new GameOfLife();
-
             var inputState = "#  \n" +
                              " # \n" +
                              "   ";
             var expectedState = " ";
 
-            var returnedState = gameOfLife.GetNewState(inputState);
+            var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
@@ -61,14 +55,12 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnLiveStateWhenLiveCellHasTwoLiveNeighbours()
         {
-            var gameOfLife = new GameOfLife();
-
             var inputState = "#  \n" +
                              " ##\n" +
                              "   ";
             var expectedState = "#";
 
-            var returnedState = gameOfLife.GetNewState(inputState);
+            var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
@@ -76,14 +68,12 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnLiveStateWhenLiveCellHasThreeLiveNeighbours()
         {
-            var gameOfLife = new GameOfLife();
-
             var inputState = "#  \n" +
                              "###\n" +
                              "   ";
             var expectedState = "#";
 
-            var returnedState = gameOfLife.GetNewState(inputState);
+            var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
@@ -91,14 +81,12 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnDeadStateWhenLiveCellHasFourLiveNeighbours()
         {
-            var gameOfLife = new GameOfLife();
-
             var inputState = "#  \n" +
                              "###\n" +
                              " # ";
             var expectedState = " ";
 
-            var returnedState = gameOfLife.GetNewState(inputState);
+            var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
