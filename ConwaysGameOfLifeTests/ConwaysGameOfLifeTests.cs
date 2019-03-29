@@ -60,6 +60,15 @@ namespace ConwaysGameOfLifeTests
             
             Assert.Equal(expectedState, returnedState);
         }
+
+        [Fact]
+        public void ShouldReturnDimensionsFromInput()
+        {
+            var inputProcessor = new InputProcessor();
+            var input = "4,3\n...\n...\n...\n...";
+
+//            inputProcessor.GetDimensions(input);
+        }
         
         [Fact]
         public void ShouldReturnNewStateWhenThreeLiveCellsPresent()
