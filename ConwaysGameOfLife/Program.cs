@@ -6,7 +6,12 @@ namespace ConwaysGameOfLife
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
+            GameOfLife game = new GameOfLife(
+                new OutputWriter(), 
+                new TextFileReader());
+            
+            game.Start();
         }
     }
 }

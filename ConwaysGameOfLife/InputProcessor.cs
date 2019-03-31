@@ -2,7 +2,7 @@ namespace ConwaysGameOfLife
 {
     public class InputProcessor
     {
-        public WorldTwoDArray GetInitialWorldState(string initialState)
+        public WorldTwoDArray SetInitialWorldState(string initialState)
         {
             var dimensionString = GetFirstLineFromInput(initialState);
 
