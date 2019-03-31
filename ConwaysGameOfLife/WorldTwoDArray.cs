@@ -3,33 +3,38 @@ using System.Linq;
 
 namespace ConwaysGameOfLife
 {
-    public class WorldTwoDArray
+    public class WorldTwoDArray : IWorld
     {
         public Cell[,] Grid { get; set; }
-        
-        private HashSet<Coordinate> GetNeighboursOfCoordinate(Coordinate coordinate)
+
+        public List<Coordinate> GetNeighbouringCells(Coordinate coordinate)
         {
-            var neighbours = new HashSet<Coordinate>();
+            var neighbours = new List<Coordinate>();
             var neighbourOffset = new List<Coordinate>
             {
-                new Coordinate {X = -1, Y = -1}, 
-                new Coordinate {X = -1, Y = 0},
-                new Coordinate {X = -1, Y = 1},
-                new Coordinate {X = 0, Y = -1},
-                new Coordinate {X = 0, Y = 1},
-                new Coordinate {X = 1, Y = -1},
-                new Coordinate {X = 1, Y = 0},
-                new Coordinate {X = 1, Y = 1},
+                new Coordinate {Row = -1, Column = -1}, 
+                new Coordinate {Row = -1, Column = 0},
+                new Coordinate {Row = -1, Column = 1},
+                new Coordinate {Row = 0, Column = -1},
+                new Coordinate {Row = 0, Column = 1},
+                new Coordinate {Row = 1, Column = -1},
+                new Coordinate {Row = 1, Column = 0},
+                new Coordinate {Row = 1, Column = 1},
             };
 
             foreach (var offset in neighbourOffset)
             {
-                var rowIndex = (coordinate.X + offset.X + GetGridWidth()) % GetGridWidth();
-                var columnIndex = (coordinate.Y + offset.Y + GetGridLength()) % GetGridLength();
-                neighbours.Add(new Coordinate {X = rowIndex, Y = columnIndex});
+                var rowIndex = (coordinate.Row + offset.Row + GetGridWidth()) % GetGridWidth();
+                var columnIndex = (coordinate.Column + offset.Column + GetGridLength()) % GetGridLength();
+                neighbours.Add(new Coordinate {Row = rowIndex, Column = columnIndex});
             }
 
             return neighbours;
+        }
+
+        public Cell GetElementAt(Coordinate coordinate)
+        {
+            return null;
         }
 
         private int GetGridLength()
@@ -49,8 +54,8 @@ namespace ConwaysGameOfLife
             {
                 for (int column = 0; column < GetGridLength(); column++)
                 {
-                    var neighbours = GetNeighboursOfCoordinate(new Coordinate {X = row, Y = column});
-                    var liveCellCount = neighbours.Count(cell => Grid[cell.X, cell.Y].IsLive);
+                    var neighbours = GetNeighbouringCells(new Coordinate {Row = row, Column = column});
+                    var liveCellCount = neighbours.Count(cell => Grid[cell.Row, cell.Column].IsLive);
                     var newState = new Cell
                     {
                         IsLive = false

@@ -7,10 +7,12 @@ namespace ConwaysGameOfLifeTests
     public class ConwaysGameOfLifeTests
     {
         private GameOfLife Game { get; set; }
+        private readonly Mock<IOutputWriter> _mockOutputWriter;
 
         public ConwaysGameOfLifeTests()
         {
-            Game = new GameOfLife();
+            _mockOutputWriter = new Mock<IOutputWriter>();
+            Game = new GameOfLife(_mockOutputWriter.Object);
         }
 
         [Fact]
@@ -24,9 +26,9 @@ namespace ConwaysGameOfLifeTests
                                 "   \n" +
                                 "   \n";
 
-            var newState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, newState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
@@ -40,9 +42,9 @@ namespace ConwaysGameOfLifeTests
                                 "   \n" +
                                 "   \n";
 
-            var returnedState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, returnedState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
@@ -56,9 +58,9 @@ namespace ConwaysGameOfLifeTests
                                 "   \n" +
                                 "   \n";
 
-            var returnedState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, returnedState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
@@ -76,9 +78,9 @@ namespace ConwaysGameOfLifeTests
                                 "     \n" + 
                                 "     \n";
 
-            var returnedState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, returnedState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
@@ -92,9 +94,9 @@ namespace ConwaysGameOfLifeTests
                                 "###\n" +
                                 "###\n";
 
-            var returnedState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, returnedState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
@@ -112,9 +114,9 @@ namespace ConwaysGameOfLifeTests
                                 "  #  \n" + 
                                 "     \n";
 
-            var returnedState = Game.GetNewState(inputState);
+            Game.SetInitialState(inputState);
             
-            Assert.Equal(expectedState, returnedState);
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
     }
 }

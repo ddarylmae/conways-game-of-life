@@ -11,19 +11,26 @@ namespace ConwaysGameOfLife
         private InputProcessor InputProcessor { get; set; }
         private WorldTwoDArray World { get; set; }
         
-        public GameOfLife()
+        private IOutputWriter OutputWriter { get; set; }
+        
+        public GameOfLife(IOutputWriter outputWriter)
         {
+            OutputWriter = outputWriter;
             InputProcessor = new InputProcessor();
         }
         
-        public string GetNewState(string initialState)
+        public void SetInitialState(string initialState)
         {
             World = InputProcessor.GetInitialWorldState(initialState);
 
             World.Evolve();
+            
+            DisplayCurrentState();
+        }
 
-            return World.GetFormattedGrid();
-
+        private void DisplayCurrentState()
+        {
+            OutputWriter.Write(World.GetFormattedGrid());
         }
     }
 }
