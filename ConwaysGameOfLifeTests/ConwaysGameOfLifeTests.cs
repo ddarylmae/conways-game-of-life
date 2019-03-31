@@ -22,7 +22,7 @@ namespace ConwaysGameOfLifeTests
                              "...";
             var expectedState = "   \n" +
                                 "   \n" +
-                                "   ";
+                                "   \n";
 
             var newState = Game.GetNewState(inputState);
             
@@ -38,7 +38,7 @@ namespace ConwaysGameOfLifeTests
                              "...";
             var expectedState = "   \n" +
                                 "   \n" +
-                                "   ";
+                                "   \n";
 
             var returnedState = Game.GetNewState(inputState);
             
@@ -54,64 +54,67 @@ namespace ConwaysGameOfLifeTests
                              "...";
             var expectedState = "   \n" +
                                 "   \n" +
-                                "   ";
+                                "   \n";
 
             var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
-        }
-
-        [Fact]
-        public void ShouldReturnDimensionsFromInput()
-        {
-            var inputProcessor = new InputProcessor();
-            var input = "4,3\n...\n...\n...\n...";
-
-//            inputProcessor.GetDimensions(input);
         }
         
         [Fact]
         public void ShouldReturnNewStateWhenThreeLiveCellsPresent()
         {
-            var inputState = "3,3\n" +
-                             "#  \n" +
-                             " ##\n" +
-                             "   ";
-            var expectedState = "   \n" +
-                                " # \n" +
-                                "   ";
+            var inputState = "5,5\n" +
+                             "     \n" +
+                             " #   \n" +
+                             "  ## \n" +
+                             "     \n" + 
+                             "     \n";
+            var expectedState = "     \n" +
+                                "  #  \n" +
+                                "  #  \n" +
+                                "     \n" + 
+                                "     \n";
 
             var returnedState = Game.GetNewState(inputState);
             
             Assert.Equal(expectedState, returnedState);
         }
         
-//        [Fact]
-//        public void ShouldReturnNewStateWhenFourLiveCellsPresent()
-//        {
-//            var inputState = "#  \n" +
-//                             "###\n" +
-//                             "   ";
-//            var expectedState = "#  \n" +
-//                                "## \n" +
-//                                "# #";
-//
-//            var returnedState = Game.GetNewState(inputState);
-//            
-//            Assert.Equal(expectedState, returnedState);
-//        }
-//        
-//        [Fact]
-//        public void ShouldReturnNewStateWhenFiveLiveCellsPresent()
-//        {
-//            var inputState = "#  \n" +
-//                             "###\n" +
-//                             " # ";
-//            var expectedState = CellState.Dead;
-//
-//            var returnedState = Game.GetNewState(inputState);
-//            
-//            Assert.Equal(expectedState, returnedState);
-//        }
+        [Fact]
+        public void ShouldReturnNewStateWhen3X3WorldThreeLiveCellsPresent()
+        {
+            var inputState = "3,3\n" +
+                             "#  \n" +
+                             " ##\n" +
+                             "   ";
+            var expectedState = "###\n" +
+                                "###\n" +
+                                "###\n";
+
+            var returnedState = Game.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
+        
+        [Fact]
+        public void ShouldReturnNewStateWhenFourLiveCellsPresent()
+        {
+            var inputState = "5,5\n" +
+                             "     \n" +
+                             " #   \n" +
+                             " ### \n" +
+                             "     \n" + 
+                             "     \n";
+            var expectedState = "     \n" +
+                                " #   \n" +
+                                " ##  \n" +
+                                "  #  \n" + 
+                                "     \n";
+
+            var returnedState = Game.GetNewState(inputState);
+            
+            Assert.Equal(expectedState, returnedState);
+        }
     }
 }
