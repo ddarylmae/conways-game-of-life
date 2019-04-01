@@ -6,5 +6,7 @@ namespace ConwaysGameOfLife
     {
         List<Coordinate> GetNeighbouringCells(Coordinate coordinate);
         Cell GetElementAt(Coordinate coordinate);
+        void Evolve();
+        string GetFormattedGrid();
     }
 }

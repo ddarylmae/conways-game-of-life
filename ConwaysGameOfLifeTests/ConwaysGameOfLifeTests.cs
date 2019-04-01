@@ -1,3 +1,4 @@
+using System.Threading;
 using ConwaysGameOfLife;
 using Moq;
 using Xunit;
@@ -6,31 +7,80 @@ namespace ConwaysGameOfLifeTests
 {
     public class ConwaysGameOfLifeTests
     {
-        private GameOfLife Game { get; set; }
+        private GameOfLife Game { get; }
         private readonly Mock<IOutputWriter> _mockOutputWriter;
-        private readonly Mock<IInputReader> _mockInputProcessor;
+        private readonly Mock<IInputReader> _mockInputReader;
 
         public ConwaysGameOfLifeTests()
         {
             _mockOutputWriter = new Mock<IOutputWriter>();
-            _mockInputProcessor = new Mock<IInputReader>();
-            Game = new GameOfLife(_mockOutputWriter.Object, _mockInputProcessor.Object);
+            _mockInputReader = new Mock<IInputReader>();
+            Game = new GameOfLife(_mockOutputWriter.Object, _mockInputReader.Object);
         }
 
         [Fact]
+        public void ShouldDisplayInitialWorldStateWhenGameHasNotStarted()
+        {
+            var fileContent = "3,3\n" +
+                              "...\n" +
+                              "...\n" +
+                              "...\n";
+            var expectedOutput = "   \n" +
+                                 "   \n" +
+                                 "   \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+            
+            Game.Step();
+            
+            _mockOutputWriter.Verify(writer => writer.Write(expectedOutput));
+        }
+
+        [Fact]
+        public void ShouldDisplayCorrectStateAfterThreePlays()
+        {
+            var initialState = "8,6\n" +
+                               "......\n" +
+                               "......\n" +
+                               "...#..\n" +
+                               "..#...\n" +
+                               "..##..\n" +
+                               "...#..\n" +
+                               "......\n" + 
+                               "......\n";
+            var expectedState =  "      \n" +
+                                 "      \n" +
+                                 "      \n" +
+                                 "  ##  \n" +
+                                 " #    \n" +
+                                 "  ##  \n" +
+                                 "      \n" + 
+                                 "      \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(initialState);
+
+            Game.Step();
+            Game.Step();
+            Game.Step();
+            
+            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+        }
+        
+        [Fact]
         public void ShouldReturnEmptyWorldWhenNoLiveCell()
         {
-            var initialState = "3,3\n" +
-                             "...\n" +
-                             "...\n" +
-                             "...";
+            var fileContent = "3,3\n" +
+                              "...\n" +
+                              "...\n" +
+                              "...";
             var expectedState = "   \n" +
                                 "   \n" +
                                 "   \n";
 
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
-            Game.Start();
+            Game.Step();
+            Game.Step();
             
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
@@ -39,16 +89,17 @@ namespace ConwaysGameOfLifeTests
         public void ShouldReturnEmptyWorldWhenOneLiveCellPresent()
         {
             var initialState = "3,3\n" +
-                             "...\n" +
-                             ".#.\n" +
-                             "...";
+                               "...\n" +
+                               ".#.\n" +
+                               "...";
             var expectedState = "   \n" +
                                 "   \n" +
                                 "   \n";
             
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(initialState);
 
-            Game.Start();
+            Game.Step();
+            Game.Step();
             
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
@@ -56,80 +107,104 @@ namespace ConwaysGameOfLifeTests
         [Fact]
         public void ShouldReturnEmptyWorldWhenTwoLiveCellsPresent()
         {
-            var initialState = "3,3\n" +
-                             ".#.\n" +
-                             ".#.\n" +
-                             "...";
+            var fileContent = "3,3\n" +
+                               ".#.\n" +
+                               ".#.\n" +
+                               "...\n";
+            var initialState = " # \n" +
+                               " # \n" +
+                               "   \n";
             var expectedState = "   \n" +
                                 "   \n" +
                                 "   \n";
             
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
-            Game.Start();
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.Write(initialState));
             
+            Game.Step();
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
         public void ShouldReturnNewStateWhenThreeLiveCellsPresent()
         {
-            var initialState = "5,5\n" +
+            var fileContent = "5,5\n" +
                              ".....\n" +
                              ".#...\n" +
                              "..##.\n" +
                              ".....\n" + 
                              ".....\n";
+            var initialState =  "     \n" +
+                                " #   \n" +
+                                "  ## \n" +
+                                "     \n" + 
+                                "     \n";
             var expectedState = "     \n" +
                                 "  #  \n" +
                                 "  #  \n" +
                                 "     \n" + 
                                 "     \n";
             
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
-            Game.Start();
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.Write(initialState));
             
+            Game.Step();
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
         public void ShouldReturnNewStateWhen3X3WorldThreeLiveCellsPresent()
         {
-            var initialState = "3,3\n" +
+            var fileContent = "3,3\n" +
                              "#..\n" +
                              ".##\n" +
-                             "...";
+                             "...\n";
+            var initialState =  "#  \n" +
+                                " ##\n" +
+                                "   \n";
             var expectedState = "###\n" +
                                 "###\n" +
                                 "###\n";
             
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
-            Game.Start();
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.Write(initialState));
             
+            Game.Step();
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
         
         [Fact]
         public void ShouldReturnNewStateWhenFourLiveCellsPresent()
         {
-            var initialState = "5,5\n" +
+            var fileContent = "5,5\n" +
                              ".....\n" +
                              ".#...\n" +
                              ".###.\n" +
                              ".....\n" + 
                              ".....\n";
+            var initialState =  "     \n" +
+                                " #   \n" +
+                                " ### \n" +
+                                "     \n" + 
+                                "     \n";
             var expectedState = "     \n" +
                                 " #   \n" +
                                 " ##  \n" +
                                 "  #  \n" + 
                                 "     \n";
             
-            _mockInputProcessor.Setup(reader => reader.GetStringContent()).Returns(initialState);
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
-            Game.Start();
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.Write(initialState));
             
+            Game.Step();
             _mockOutputWriter.Verify(writer => writer.Write(expectedState));
         }
     }

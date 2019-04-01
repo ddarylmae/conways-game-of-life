@@ -5,7 +5,7 @@ namespace ConwaysGameOfLife
 {
     public class TextFileReader : IInputReader
     {
-        private const string FilePath = "..//initial-state.txt";
+        private const string FilePath = "..//initial-state-15X25.txt";
         
         public string GetStringContent()
         {

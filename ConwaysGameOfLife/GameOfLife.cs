@@ -10,28 +10,42 @@ namespace ConwaysGameOfLife
     {
         private InputProcessor InputProcessor { get; set; }
         private IInputReader InputReader { get; set; }
-        private WorldTwoDArray World { get; set; }
+        private IWorld World { get; set; }
         private IOutputWriter OutputWriter { get; set; }
+        private bool IsGameStarted { get; set; }
         
         public GameOfLife(IOutputWriter outputWriter, IInputReader inputReader)
         {
             OutputWriter = outputWriter;
-            InputProcessor = new InputProcessor();
             InputReader = inputReader;
+            
+            InputProcessor = new InputProcessor();
+            IsGameStarted = false;
         }
-        
-        public void Start()
+
+        private void InitializeGame()
         {
-            var initialState = InputReader.GetStringContent(); // file input processor here
+            var initialState = InputReader.GetStringContent();
             
             World = InputProcessor.SetInitialWorldState(initialState);
-
-            World.Evolve();
-            
-            DisplayCurrentState();
         }
 
-        private void DisplayCurrentState()
+        public void Step()
+        {
+            if (!IsGameStarted)
+            {
+                InitializeGame();
+                IsGameStarted = true;
+            }
+            else
+            {
+                World.Evolve();
+            }
+            
+            DisplayWorldState();
+        }
+
+        private void DisplayWorldState()
         {
             OutputWriter.Write(World.GetFormattedGrid());
         }

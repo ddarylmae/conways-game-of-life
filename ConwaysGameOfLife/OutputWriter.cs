@@ -6,6 +6,7 @@ namespace ConwaysGameOfLife
     {
         public void Write(string message)
         {
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine(message);
         }
     }

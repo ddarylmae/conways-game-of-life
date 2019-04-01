@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ConwaysGameOfLife
 {
-    public class WorldTwoDArray : IWorld
+    public class WorldArray : IWorld
     {
         public Cell[,] Grid { get; set; }
 
@@ -49,7 +49,8 @@ namespace ConwaysGameOfLife
 
         public void Evolve()
         {
-            Cell[,] newGridState = new Cell[GetGridLength(),GetGridWidth()];
+            Cell[,] newGridState = new Cell[GetGridWidth(),GetGridLength()];
+            
             for (int row = 0; row < GetGridWidth(); row++)
             {
                 for (int column = 0; column < GetGridLength(); column++)
@@ -68,6 +69,7 @@ namespace ConwaysGameOfLife
                     {
                         newState.IsLive = true;
                     }
+                    
                     newGridState[row, column] = newState;
                 }
             }

@@ -2,7 +2,7 @@ namespace ConwaysGameOfLife
 {
     public class InputProcessor
     {
-        public WorldTwoDArray SetInitialWorldState(string initialState)
+        public WorldArray SetInitialWorldState(string initialState)
         {
             var dimensionString = GetFirstLineFromInput(initialState);
 
@@ -31,7 +31,7 @@ namespace ConwaysGameOfLife
             return null;
         }
         
-        private WorldTwoDArray CreateWorld(Dimensions dimensions, string[] initialState)
+        private WorldArray CreateWorld(Dimensions dimensions, string[] initialState)
         {
             var grid = new Cell[dimensions.Length, dimensions.Width];
             
@@ -49,7 +49,7 @@ namespace ConwaysGameOfLife
                 }
             }
 
-            var finalGrid = new WorldTwoDArray
+            var finalGrid = new WorldArray
             {
                 Grid = grid
             };
