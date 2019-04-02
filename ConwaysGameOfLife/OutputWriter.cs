@@ -9,5 +9,10 @@ namespace ConwaysGameOfLife
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(formattedWorld);
         }
+
+        public void Write(string message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }

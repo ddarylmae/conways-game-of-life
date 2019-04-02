@@ -23,7 +23,7 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldDisplayInitialWorldState()
+        public void ShouldDisplayInitialWorldStateAndGameGuideMessage()
         {
             var fileContent = "3,3\n" +
                               "...\n" +
@@ -38,6 +38,7 @@ namespace ConwaysGameOfLifeTests
             InitializeNewGame();
             
             _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedOutput));
+            _mockOutputWriter.Verify(writer => writer.Write("Press return to see next state..."));
         }
         
         [Fact]
