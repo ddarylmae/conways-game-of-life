@@ -15,7 +15,7 @@ namespace ConwaysGameOfLife
         public List<Cell> GetNeighboursOfCellAt(Coordinate coordinate)
         {
             var neighbours = new List<Cell>();
-            var neighbourOffset = new List<Coordinate>
+            var neighbourOffsets = new List<Coordinate>
             {
                 new Coordinate(-1, -1), 
                 new Coordinate(-1, 0),
@@ -27,14 +27,20 @@ namespace ConwaysGameOfLife
                 new Coordinate(1, 1),
             };
 
-            foreach (var offset in neighbourOffset)
+            foreach (var offset in neighbourOffsets)
             {
-                var rowIndex = (coordinate.Row + offset.Row + GetGridWidth()) % GetGridWidth();
-                var columnIndex = (coordinate.Column + offset.Column + GetGridLength()) % GetGridLength();
+                var rowIndex = GetIndexFromOffSet(coordinate.Row, offset.Row, GetGridWidth());
+                var columnIndex = GetIndexFromOffSet(coordinate.Column, offset.Column, GetGridLength());
+                
                 neighbours.Add(GetCellAt(new Coordinate(rowIndex, columnIndex)));
             }
 
             return neighbours;
+        }
+
+        private int GetIndexFromOffSet(int position, int offset, int boundary)
+        {
+            return (position + offset + boundary) % boundary;
         }
         
         public void SetWorld(string initialState)
@@ -69,22 +75,6 @@ namespace ConwaysGameOfLife
         {
             return Grid.GetLength(0);
         }
-
-//        public string GetFormattedGrid()
-//        {
-//            var grid = "";
-//            for (int width = 0; width < GetGridWidth(); width++)
-//            {
-//                for (int length = 0; length < GetGridLength(); length++)
-//                {
-//                    grid += Grid[width, length].IsLive ? Constants.LiveCell : Constants.DeadCell;
-//                }
-//
-//                grid += "\n";
-//            }
-//
-//            return grid;
-//        }
 
         public Dimensions GetDimensions()
         {

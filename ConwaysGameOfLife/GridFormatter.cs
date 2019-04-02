@@ -5,7 +5,6 @@ namespace ConwaysGameOfLife
         public string GetFormatted(IWorld world)
         {
             var dimensions = world.GetDimensions();
-            
             var grid = "";
             
             for (int row = 0; row < dimensions.Width; row++)
