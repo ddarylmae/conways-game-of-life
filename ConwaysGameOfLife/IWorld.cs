@@ -5,7 +5,7 @@ namespace ConwaysGameOfLife
     public interface IWorld
     {
         List<Coordinate> GetNeighbouringCells(Coordinate coordinate);
-        Cell GetElementAt(Coordinate coordinate);
+        Cell GetCellAt(Coordinate coordinate);
         void Evolve();
         string GetFormattedGrid();
         Dimensions GetDimensions();

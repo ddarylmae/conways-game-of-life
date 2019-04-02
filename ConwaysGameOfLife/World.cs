@@ -58,7 +58,7 @@ namespace ConwaysGameOfLife
 //            Grid = grid;
         }
 
-        public Cell GetElementAt(Coordinate coordinate)
+        public Cell GetCellAt(Coordinate coordinate)
         {
             return Grid[coordinate.Row, coordinate.Column];
         }
