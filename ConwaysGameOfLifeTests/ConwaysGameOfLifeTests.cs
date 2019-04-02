@@ -19,7 +19,7 @@ namespace ConwaysGameOfLifeTests
         
         private void InitializeNewGame()
         {
-            Game = new GameOfLife(_mockOutputWriter.Object, _mockInputReader.Object);
+            Game = new GameOfLife(_mockInputReader.Object, _mockOutputWriter.Object);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace ConwaysGameOfLifeTests
             
             InitializeNewGame();
             
-            _mockOutputWriter.Verify(writer => writer.Write(expectedOutput));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedOutput));
         }
         
         [Fact]
@@ -67,7 +67,7 @@ namespace ConwaysGameOfLifeTests
             Game.Step();
             Game.Step();
             
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -86,7 +86,7 @@ namespace ConwaysGameOfLifeTests
             InitializeNewGame();
             Game.Step();
             
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -106,7 +106,7 @@ namespace ConwaysGameOfLifeTests
             
             Game.Step();
             
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -126,10 +126,10 @@ namespace ConwaysGameOfLifeTests
             _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
             InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.Write(initialState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -155,10 +155,10 @@ namespace ConwaysGameOfLifeTests
             _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
             InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.Write(initialState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -178,10 +178,10 @@ namespace ConwaysGameOfLifeTests
             _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
             InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.Write(initialState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
         
         [Fact]
@@ -207,10 +207,10 @@ namespace ConwaysGameOfLifeTests
             _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
             InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.Write(initialState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.Write(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
         }
     }
 }

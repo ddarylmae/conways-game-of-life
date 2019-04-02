@@ -15,9 +15,7 @@ namespace ConwaysGameOfLife
         private IOutputWriter OutputWriter { get; }
         private StateGenerator StateGenerator { get; }
         
-        public GameOfLife(
-            IOutputWriter outputWriter, 
-            IInputReader inputReader)
+        public GameOfLife(IInputReader inputReader, IOutputWriter outputWriter)
         {
             OutputWriter = outputWriter;
             InputReader = inputReader;
@@ -47,7 +45,8 @@ namespace ConwaysGameOfLife
 
         private void DisplayWorldState()
         {
-            OutputWriter.Write(GridFormatter.GetFormatted(World));
+            var formattedWorld = GridFormatter.Format(World);
+            OutputWriter.WriteAtTop(formattedWorld);
         }
     }
 }

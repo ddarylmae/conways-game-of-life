@@ -16,7 +16,7 @@ namespace ConwaysGameOfLife
                     return fileContent;
                 }
             }
-            catch (IOException e)
+            catch (IOException exception)
             {
                 
             }

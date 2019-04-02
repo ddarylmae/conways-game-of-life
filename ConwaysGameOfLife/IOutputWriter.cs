@@ -2,6 +2,6 @@ namespace ConwaysGameOfLife
 {
     public interface IOutputWriter
     {
-        void Write(string message);
+        void WriteAtTop(string formattedWorld);
     }
 }

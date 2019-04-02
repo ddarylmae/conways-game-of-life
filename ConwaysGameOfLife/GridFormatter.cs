@@ -2,7 +2,7 @@ namespace ConwaysGameOfLife
 {
     public class GridFormatter
     {
-        public string GetFormatted(IWorld world)
+        public string Format(IWorld world)
         {
             var dimensions = world.GetDimensions();
             var grid = "";
