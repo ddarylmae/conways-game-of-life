@@ -4,12 +4,11 @@ namespace ConwaysGameOfLife
 {
     public interface IWorld
     {
-        List<Coordinate> GetNeighbouringCells(Coordinate coordinate);
+        List<Cell> GetNeighboursOfCellAt(Coordinate coordinate);
         Cell GetCellAt(Coordinate coordinate);
-        void Evolve();
         string GetFormattedGrid();
         Dimensions GetDimensions();
-        void UpdateCell(Coordinate coordinate, Cell cell);
+        void UpdateCellAt(Coordinate coordinate, Cell cell);
         void InitialiseWorld(string initialState);
     }
 }

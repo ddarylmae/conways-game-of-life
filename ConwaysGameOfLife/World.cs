@@ -12,9 +12,9 @@ namespace ConwaysGameOfLife
             Grid = new Cell[dimensions.Width, dimensions.Length];
         }
 
-        public List<Coordinate> GetNeighbouringCells(Coordinate coordinate)
+        public List<Cell> GetNeighboursOfCellAt(Coordinate coordinate)
         {
-            var neighbours = new List<Coordinate>();
+            var neighbours = new List<Cell>();
             var neighbourOffset = new List<Coordinate>
             {
                 new Coordinate(-1, -1), 
@@ -31,7 +31,7 @@ namespace ConwaysGameOfLife
             {
                 var rowIndex = (coordinate.Row + offset.Row + GetGridWidth()) % GetGridWidth();
                 var columnIndex = (coordinate.Column + offset.Column + GetGridLength()) % GetGridLength();
-                neighbours.Add(new Coordinate(rowIndex, columnIndex));
+                neighbours.Add(GetCellAt(new Coordinate(rowIndex, columnIndex)));
             }
 
             return neighbours;
@@ -39,7 +39,6 @@ namespace ConwaysGameOfLife
         
         public void InitialiseWorld(string initialState)
         {
-//            var grid = new Cell[dimensions.Length, dimensions.Width];
             var initialStateLines = initialState.Split('\n');
             for (int rowIndex = 0; rowIndex < GetGridWidth(); rowIndex++)
             {
@@ -54,8 +53,6 @@ namespace ConwaysGameOfLife
                     Grid[rowIndex, colIndex] = cell;
                 }
             }
-
-//            Grid = grid;
         }
 
         public Cell GetCellAt(Coordinate coordinate)
@@ -71,36 +68,6 @@ namespace ConwaysGameOfLife
         private int GetGridWidth()
         {
             return Grid.GetLength(0);
-        }
-
-        public void Evolve()
-        {
-            Cell[,] newGridState = new Cell[GetGridWidth(),GetGridLength()];
-            
-            for (int row = 0; row < GetGridWidth(); row++)
-            {
-                for (int column = 0; column < GetGridLength(); column++)
-                {
-                    var neighbours = GetNeighbouringCells(new Coordinate(row, column));
-                    var liveCellCount = neighbours.Count(cell => Grid[cell.Row, cell.Column].IsLive);
-                    var newState = new Cell
-                    {
-                        IsLive = false
-                    };
-                    if (liveCellCount < 2 || liveCellCount > 3)
-                    {
-                        newState.IsLive = false;
-                    }
-                    else if (liveCellCount == 3 || Grid[row, column].IsLive && liveCellCount == 2)
-                    {
-                        newState.IsLive = true;
-                    }
-                    
-                    newGridState[row, column] = newState;
-                }
-            }
-
-            Grid = newGridState;
         }
 
         public string GetFormattedGrid()
@@ -128,7 +95,7 @@ namespace ConwaysGameOfLife
             };
         }
 
-        public void UpdateCell(Coordinate coordinate, Cell cell)
+        public void UpdateCellAt(Coordinate coordinate, Cell cell)
         {
             Grid[coordinate.Row, coordinate.Column] = cell;
         }

@@ -36,7 +36,7 @@ namespace ConwaysGameOfLife
 
         public void Step()
         {
-            World = StateGenerator.Evolve(World);
+            World = StateGenerator.GetNextWorldState(World);
 //            World.Evolve();
             DisplayWorldState();
         }

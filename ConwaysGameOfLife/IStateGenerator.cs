@@ -2,6 +2,6 @@ namespace ConwaysGameOfLife
 {
     public interface IStateGenerator
     {
-        IWorld Evolve(IWorld currentWorld);
+        IWorld GetNextWorldState(IWorld world);
     }
 }

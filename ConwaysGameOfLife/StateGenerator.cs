@@ -6,39 +6,67 @@ namespace ConwaysGameOfLife
 {
     public class StateGenerator : IStateGenerator
     {
-        public IWorld Evolve(IWorld currentWorld)
+        public IWorld GetNextWorldState(IWorld world)
         {
-            var dimensions = currentWorld.GetDimensions();
-            var nextGenerationWorld = new World(dimensions); 
+            var updatedCells = GetUpdatedCells(world);
+
+            world = UpdateWorldState(world, updatedCells);
             
+            return world;
+        }
+
+        private Dictionary<Coordinate, Cell> GetUpdatedCells(IWorld world)
+        {
+            var updatedCells = new Dictionary<Coordinate, Cell>();
+            
+            var dimensions = world.GetDimensions();
+
             for (int row = 0; row < dimensions.Width; row++)
             {
                 for (int column = 0; column < dimensions.Length; column++)
                 {
                     var currentCoordinate = new Coordinate(row, column);
-                    
-                    var neighbours = currentWorld.GetNeighbouringCells(currentCoordinate);
-                    
-                    var newState = GetNewCellState(currentWorld, neighbours, currentCoordinate);
+                    var currentCell = world.GetCellAt(currentCoordinate);
 
-                    nextGenerationWorld.UpdateCell(currentCoordinate, newState);
+                    var neighbours = world.GetNeighboursOfCellAt(currentCoordinate);
+
+                    var newCell = GetNewCellState(neighbours, currentCell);
+
+                    if (IsCellStateChanged(currentCell, newCell))
+                    {
+                        updatedCells.Add(currentCoordinate, newCell);
+                    }
                 }
             }
 
-            return nextGenerationWorld;
+            return updatedCells;
         }
 
-        private Cell GetNewCellState(IWorld world, List<Coordinate> neighbours, Coordinate currentCoordinate)
+        private bool IsCellStateChanged(Cell oldCell, Cell newCell)
         {
-            var liveCellCount = neighbours.Count(coordinate => world.GetCellAt(coordinate).IsLive);
+            return oldCell.IsLive != newCell.IsLive;
+        }
+
+        private IWorld UpdateWorldState(IWorld world, Dictionary<Coordinate,Cell> updatedCells)
+        {
+            foreach (var cell in updatedCells)
+            {
+                var coordinate = cell.Key;
+                var newState = cell.Value;
+                
+                world.UpdateCellAt(coordinate, newState);
+            }
+
+            return world;
+        }
+
+        private Cell GetNewCellState(List<Cell> neighbours, Cell currentCell)
+        {
+            var liveNeighbors = neighbours.Count(neighbour => neighbour.IsLive);
             
             var cell = new Cell();
             
-            if (liveCellCount < 2 || liveCellCount > 3)
-            {
-                cell.IsLive = false;
-            }
-            else if (liveCellCount == 3 || world.GetCellAt(currentCoordinate).IsLive && liveCellCount == 2)
+            if (liveNeighbors == 3 || currentCell.IsLive && liveNeighbors == 2)
             {
                 cell.IsLive = true;
             }

@@ -5,13 +5,12 @@ namespace ConwaysGameOfLife
 {
     public class TextFileReader : IInputReader
     {
-        private const string FilePath = "..//initial-state-15X25.txt";
-        
         public string GetStringContent()
         {
+            var filePath = Constants.TextFilePath;
             try
             {
-                using (var streamReader = new StreamReader(FilePath))
+                using (var streamReader = new StreamReader(filePath))
                 {
                     var fileContent = streamReader.ReadToEnd();
                     return fileContent;
