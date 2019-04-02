@@ -8,5 +8,8 @@ namespace ConwaysGameOfLife
         Cell GetElementAt(Coordinate coordinate);
         void Evolve();
         string GetFormattedGrid();
+        Dimensions GetDimensions();
+        void UpdateCell(Coordinate coordinate, Cell cell);
+        void InitialiseWorld(string initialState);
     }
 }

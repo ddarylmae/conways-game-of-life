@@ -12,7 +12,7 @@ namespace ConwaysGameOfLife
         private IInputReader InputReader { get; set; }
         private IWorld World { get; set; }
         private IOutputWriter OutputWriter { get; set; }
-        private bool IsGameStarted { get; set; }
+        private IStateGenerator StateGenerator;
         
         public GameOfLife(IOutputWriter outputWriter, IInputReader inputReader)
         {
@@ -20,28 +20,24 @@ namespace ConwaysGameOfLife
             InputReader = inputReader;
             
             InputProcessor = new InputProcessor();
-            IsGameStarted = false;
+            StateGenerator = new StateGenerator();
+            
+            InitializeGame();
         }
 
         private void InitializeGame()
         {
             var initialState = InputReader.GetStringContent();
-            
-            World = InputProcessor.SetInitialWorldState(initialState);
+//            World = InputProcessor.SetInitialWorldState(initialState);
+            World = new World(InputProcessor.GetDimensions(initialState));
+            World.InitialiseWorld(InputProcessor.GetInitialGridFromInput(initialState));
+            DisplayWorldState();
         }
 
         public void Step()
         {
-            if (!IsGameStarted)
-            {
-                InitializeGame();
-                IsGameStarted = true;
-            }
-            else
-            {
-                World.Evolve();
-            }
-            
+            World = StateGenerator.Evolve(World);
+//            World.Evolve();
             DisplayWorldState();
         }
 

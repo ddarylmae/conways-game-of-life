@@ -14,8 +14,8 @@ namespace ConwaysGameOfLife
 
             while (input!="q")
             {
-                game.Step();
                 input = Console.ReadLine();
+                game.Step();
             }
         }
     }

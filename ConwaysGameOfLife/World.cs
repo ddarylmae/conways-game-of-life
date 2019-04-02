@@ -3,38 +3,64 @@ using System.Linq;
 
 namespace ConwaysGameOfLife
 {
-    public class WorldArray : IWorld
+    public class World : IWorld
     {
-        public Cell[,] Grid { get; set; }
+        private Cell[,] Grid { get; set; }
+
+        public World(Dimensions dimensions)
+        {
+            Grid = new Cell[dimensions.Width, dimensions.Length];
+        }
 
         public List<Coordinate> GetNeighbouringCells(Coordinate coordinate)
         {
             var neighbours = new List<Coordinate>();
             var neighbourOffset = new List<Coordinate>
             {
-                new Coordinate {Row = -1, Column = -1}, 
-                new Coordinate {Row = -1, Column = 0},
-                new Coordinate {Row = -1, Column = 1},
-                new Coordinate {Row = 0, Column = -1},
-                new Coordinate {Row = 0, Column = 1},
-                new Coordinate {Row = 1, Column = -1},
-                new Coordinate {Row = 1, Column = 0},
-                new Coordinate {Row = 1, Column = 1},
+                new Coordinate(-1, -1), 
+                new Coordinate(-1, 0),
+                new Coordinate(-1, 1),
+                new Coordinate(0, -1),
+                new Coordinate(0, 1),
+                new Coordinate(1, -1),
+                new Coordinate(1, 0),
+                new Coordinate(1, 1),
             };
 
             foreach (var offset in neighbourOffset)
             {
                 var rowIndex = (coordinate.Row + offset.Row + GetGridWidth()) % GetGridWidth();
                 var columnIndex = (coordinate.Column + offset.Column + GetGridLength()) % GetGridLength();
-                neighbours.Add(new Coordinate {Row = rowIndex, Column = columnIndex});
+                neighbours.Add(new Coordinate(rowIndex, columnIndex));
             }
 
             return neighbours;
         }
+        
+        public void InitialiseWorld(string initialState)
+        {
+//            var grid = new Cell[dimensions.Length, dimensions.Width];
+            var initialStateLines = initialState.Split('\n');
+            for (int rowIndex = 0; rowIndex < GetGridWidth(); rowIndex++)
+            {
+                var currentRowInput = initialStateLines[rowIndex];
+                for (int colIndex = 0; colIndex < GetGridLength(); colIndex++)
+                {
+                    var cell = new Cell
+                    {
+                        IsLive = currentRowInput[colIndex] == '#'
+                    };
+                    
+                    Grid[rowIndex, colIndex] = cell;
+                }
+            }
+
+//            Grid = grid;
+        }
 
         public Cell GetElementAt(Coordinate coordinate)
         {
-            return null;
+            return Grid[coordinate.Row, coordinate.Column];
         }
 
         private int GetGridLength()
@@ -55,7 +81,7 @@ namespace ConwaysGameOfLife
             {
                 for (int column = 0; column < GetGridLength(); column++)
                 {
-                    var neighbours = GetNeighbouringCells(new Coordinate {Row = row, Column = column});
+                    var neighbours = GetNeighbouringCells(new Coordinate(row, column));
                     var liveCellCount = neighbours.Count(cell => Grid[cell.Row, cell.Column].IsLive);
                     var newState = new Cell
                     {
@@ -91,6 +117,20 @@ namespace ConwaysGameOfLife
             }
 
             return grid;
+        }
+
+        public Dimensions GetDimensions()
+        {
+            return new Dimensions
+            {
+                Width = GetGridWidth(),
+                Length = GetGridLength()
+            };
+        }
+
+        public void UpdateCell(Coordinate coordinate, Cell cell)
+        {
+            Grid[coordinate.Row, coordinate.Column] = cell;
         }
     }
 }
