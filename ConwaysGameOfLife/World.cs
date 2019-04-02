@@ -5,7 +5,7 @@ namespace ConwaysGameOfLife
 {
     public class World : IWorld
     {
-        private Cell[,] Grid { get; set; }
+        private Cell[,] Grid { get; }
 
         public World(Dimensions dimensions)
         {
@@ -29,8 +29,8 @@ namespace ConwaysGameOfLife
 
             foreach (var offset in neighbourOffsets)
             {
-                var rowIndex = GetIndexFromOffSet(coordinate.Row, offset.Row, GetGridWidth());
-                var columnIndex = GetIndexFromOffSet(coordinate.Column, offset.Column, GetGridLength());
+                var rowIndex = GetIndexFromOffSet(coordinate.Row, offset.Row, RowCount());
+                var columnIndex = GetIndexFromOffSet(coordinate.Column, offset.Column, ColumnCount());
                 
                 neighbours.Add(GetCellAt(new Coordinate(rowIndex, columnIndex)));
             }
@@ -46,14 +46,14 @@ namespace ConwaysGameOfLife
         public void SetWorld(string initialState)
         {
             var initialStateLines = initialState.Split('\n');
-            for (int rowIndex = 0; rowIndex < GetGridWidth(); rowIndex++)
+            for (int rowIndex = 0; rowIndex < RowCount(); rowIndex++)
             {
                 var currentRowInput = initialStateLines[rowIndex];
-                for (int colIndex = 0; colIndex < GetGridLength(); colIndex++)
+                for (int colIndex = 0; colIndex < ColumnCount(); colIndex++)
                 {
                     var cell = new Cell
                     {
-                        IsLive = currentRowInput[colIndex] == '#'
+                        IsLive = currentRowInput[colIndex] == Constants.LiveCell
                     };
                     
                     Grid[rowIndex, colIndex] = cell;
@@ -66,12 +66,12 @@ namespace ConwaysGameOfLife
             return Grid[coordinate.Row, coordinate.Column];
         }
 
-        private int GetGridLength()
+        private int ColumnCount()
         {
             return Grid.GetLength(1);
         }
 
-        private int GetGridWidth()
+        private int RowCount()
         {
             return Grid.GetLength(0);
         }
@@ -80,8 +80,8 @@ namespace ConwaysGameOfLife
         {
             return new Dimensions
             {
-                Width = GetGridWidth(),
-                Length = GetGridLength()
+                Width = RowCount(),
+                Length = ColumnCount()
             };
         }
 
