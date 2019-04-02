@@ -2,20 +2,6 @@ namespace ConwaysGameOfLife
 {
     public class InputProcessor
     {
-//        public IWorld SetInitialWorldState(string initialState)
-//        {
-//            var dimensionString = GetFirstLineFromInput(initialState);
-//
-//            var gridContent = GetInitialGridFromInput(initialState, dimensionString);
-//
-//            var dimensions = GetDimensions(initialState);
-//            
-//            var world = new World(dimensions);
-//            world.InitialiseWorld(gridContent);
-//
-//            return world;
-//        }
-        
         public Dimensions GetDimensions(string input)
         {
             var dimensionInput = GetFirstLineFromInput(input);
@@ -31,32 +17,6 @@ namespace ConwaysGameOfLife
 
             return null;
         }
-        
-//        private World CreateWorld(Dimensions dimensions, string[] initialState)
-//        {
-//            var grid = new Cell[dimensions.Length, dimensions.Width];
-//            
-//            for (int rowIndex = 0; rowIndex < dimensions.Length; rowIndex++)
-//            {
-//                var currentRowInput = initialState[rowIndex];
-//                for (int colIndex = 0; colIndex < dimensions.Width; colIndex++)
-//                {
-//                    var cell = new Cell
-//                    {
-//                        IsLive = currentRowInput[colIndex] == '#'
-//                    };
-//                    
-//                    grid[rowIndex, colIndex] = cell;
-//                }
-//            }
-//
-//            var finalGrid = new World
-//            {
-//                Grid = grid
-//            };
-//
-//            return finalGrid;
-//        }
 
         public string GetInitialGridFromInput(string initialState)
         {

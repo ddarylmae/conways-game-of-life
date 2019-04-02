@@ -6,9 +6,8 @@ namespace ConwaysGameOfLife
     {
         List<Cell> GetNeighboursOfCellAt(Coordinate coordinate);
         Cell GetCellAt(Coordinate coordinate);
-        string GetFormattedGrid();
         Dimensions GetDimensions();
         void UpdateCellAt(Coordinate coordinate, Cell cell);
-        void InitialiseWorld(string initialState);
+        void SetWorld(string initialState);
     }
 }

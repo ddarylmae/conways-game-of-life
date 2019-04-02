@@ -8,19 +8,23 @@ namespace ConwaysGameOfLife
 {
     public class GameOfLife
     {
-        private InputProcessor InputProcessor { get; set; }
-        private IInputReader InputReader { get; set; }
+        private GridFormatter GridFormatter { get; }
+        private InputProcessor InputProcessor { get; }
+        private IInputReader InputReader { get; }
         private IWorld World { get; set; }
-        private IOutputWriter OutputWriter { get; set; }
-        private IStateGenerator StateGenerator;
+        private IOutputWriter OutputWriter { get; }
+        private StateGenerator StateGenerator { get; }
         
-        public GameOfLife(IOutputWriter outputWriter, IInputReader inputReader)
+        public GameOfLife(
+            IOutputWriter outputWriter, 
+            IInputReader inputReader)
         {
             OutputWriter = outputWriter;
             InputReader = inputReader;
             
-            InputProcessor = new InputProcessor();
             StateGenerator = new StateGenerator();
+            InputProcessor = new InputProcessor();
+            GridFormatter = new GridFormatter();
             
             InitializeGame();
         }
@@ -28,22 +32,22 @@ namespace ConwaysGameOfLife
         private void InitializeGame()
         {
             var initialState = InputReader.GetStringContent();
-//            World = InputProcessor.SetInitialWorldState(initialState);
             World = new World(InputProcessor.GetDimensions(initialState));
-            World.InitialiseWorld(InputProcessor.GetInitialGridFromInput(initialState));
+            World.SetWorld(InputProcessor.GetInitialGridFromInput(initialState));
+            
             DisplayWorldState();
         }
 
         public void Step()
         {
             World = StateGenerator.GetNextWorldState(World);
-//            World.Evolve();
+            
             DisplayWorldState();
         }
 
         private void DisplayWorldState()
         {
-            OutputWriter.Write(World.GetFormattedGrid());
+            OutputWriter.Write(GridFormatter.GetFormatted(World));
         }
     }
 }

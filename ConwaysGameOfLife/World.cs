@@ -37,7 +37,7 @@ namespace ConwaysGameOfLife
             return neighbours;
         }
         
-        public void InitialiseWorld(string initialState)
+        public void SetWorld(string initialState)
         {
             var initialStateLines = initialState.Split('\n');
             for (int rowIndex = 0; rowIndex < GetGridWidth(); rowIndex++)
@@ -70,21 +70,21 @@ namespace ConwaysGameOfLife
             return Grid.GetLength(0);
         }
 
-        public string GetFormattedGrid()
-        {
-            var grid = "";
-            for (int width = 0; width < GetGridWidth(); width++)
-            {
-                for (int length = 0; length < GetGridLength(); length++)
-                {
-                    grid += Grid[width, length].IsLive ? "#" : " ";
-                }
-
-                grid += "\n";
-            }
-
-            return grid;
-        }
+//        public string GetFormattedGrid()
+//        {
+//            var grid = "";
+//            for (int width = 0; width < GetGridWidth(); width++)
+//            {
+//                for (int length = 0; length < GetGridLength(); length++)
+//                {
+//                    grid += Grid[width, length].IsLive ? Constants.LiveCell : Constants.DeadCell;
+//                }
+//
+//                grid += "\n";
+//            }
+//
+//            return grid;
+//        }
 
         public Dimensions GetDimensions()
         {

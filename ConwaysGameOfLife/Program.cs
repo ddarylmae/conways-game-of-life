@@ -8,9 +8,7 @@ namespace ConwaysGameOfLife
         {
             var input = "";
             
-            GameOfLife game = new GameOfLife(
-                new OutputWriter(), 
-                new TextFileReader());
+            GameOfLife game = new GameOfLife(new OutputWriter(), new TextFileReader());
 
             while (input!="q")
             {

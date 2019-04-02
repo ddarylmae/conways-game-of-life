@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ConwaysGameOfLife
 {
-    public class StateGenerator : IStateGenerator
+    public class StateGenerator
     {
         public IWorld GetNextWorldState(IWorld world)
         {
