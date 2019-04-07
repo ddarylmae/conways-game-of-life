@@ -1,9 +1,3 @@
-using System;
-using System.Data.Common;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
-using ConwaysGameOfLife;
-
 namespace ConwaysGameOfLife
 {
     public class GameOfLife
@@ -21,20 +15,18 @@ namespace ConwaysGameOfLife
             OutputWriter = outputWriter;
             
             World = inputProcessor.GetWorld();
-
             
-            InitializeGame();
-        }
-
-        private void InitializeGame()
-        {
-
             DisplayInitialGameOutput();
         }
 
         private void DisplayInitialGameOutput()
         {
             DisplayWorldState();
+            DisplayGameGuide();
+        }
+
+        private void DisplayGameGuide()
+        {
             OutputWriter.Write("Press return to see next state...");
         }
 
