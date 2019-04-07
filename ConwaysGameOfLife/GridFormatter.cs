@@ -13,7 +13,7 @@ namespace ConwaysGameOfLife
                 {
                     var coordinate = new Coordinate(row, column);
                     
-                    grid += world.GetCellAt(coordinate).IsLive ? Constants.LiveCell : Constants.DeadCell;
+                    grid += world.GetCellAt(coordinate) == Cell.Live ? Constants.LiveCell : Constants.DeadCell;
                 }
 
                 grid += "\n";

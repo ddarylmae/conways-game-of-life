@@ -7,9 +7,13 @@ namespace ConwaysGameOfLife
     {
         private Cell[,] Grid { get; }
 
-        public World(Dimensions dimensions)
+        public World(Dimensions dimensions, List<Coordinate> livingCells)
         {
-            Grid = new Cell[dimensions.Width, dimensions.Length];
+            Grid = new Cell[dimensions.Width,dimensions.Length];
+            foreach (var coordinate in livingCells)
+            {
+                UpdateCellAt(coordinate, Cell.Live);
+            }
         }
 
         public List<Cell> GetNeighboursOfCellAt(Coordinate coordinate)
@@ -42,23 +46,10 @@ namespace ConwaysGameOfLife
         {
             return (position + offset + boundary) % boundary;
         }
-        
-        public void SetWorld(string initialState)
+
+        private void InitializeWorldFromLivingCells()
         {
-            var initialStateLines = initialState.Split('\n');
-            for (int rowIndex = 0; rowIndex < RowCount(); rowIndex++)
-            {
-                var currentRowInput = initialStateLines[rowIndex];
-                for (int colIndex = 0; colIndex < ColumnCount(); colIndex++)
-                {
-                    var cell = new Cell
-                    {
-                        IsLive = currentRowInput[colIndex] == Constants.LiveCell
-                    };
-                    
-                    Grid[rowIndex, colIndex] = cell;
-                }
-            }
+            
         }
 
         public Cell GetCellAt(Coordinate coordinate)

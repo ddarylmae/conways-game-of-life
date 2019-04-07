@@ -2,21 +2,21 @@ namespace ConwaysGameOfLife
 {
     public class MessageHandler
     {
-        private IOutputWriter OutputWriter;
+        private readonly IOutputWriter _outputWriter;
 
         public MessageHandler(IOutputWriter outputWriter)
         {
-            OutputWriter = outputWriter;
+            _outputWriter = outputWriter;
         }
         
         public void DisplayGameGuide()
         {
-            OutputWriter.Write("Press return to see next state...");
+            _outputWriter.Write("Press return to see next state...");
         }
 
         public void DisplayFormattedGrid(string formattedGrid)
         {
-            OutputWriter.WriteAtTop(formattedGrid);
+            _outputWriter.WriteAtTop(formattedGrid);
         }
     }
 }

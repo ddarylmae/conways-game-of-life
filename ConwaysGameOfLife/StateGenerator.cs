@@ -6,7 +6,7 @@ namespace ConwaysGameOfLife
 {
     public class StateGenerator
     {
-        public IWorld GetNextWorldState(IWorld world)
+        public IWorld GetNextState(IWorld world)
         {
             var updatedCells = GetUpdatedCells(world);
 
@@ -44,7 +44,7 @@ namespace ConwaysGameOfLife
 
         private bool IsCellStateChanged(Cell oldCell, Cell newCell)
         {
-            return oldCell.IsLive != newCell.IsLive;
+            return oldCell != newCell;
         }
 
         private IWorld UpdateWorldState(IWorld world, Dictionary<Coordinate,Cell> updatedCells)
@@ -62,16 +62,14 @@ namespace ConwaysGameOfLife
 
         private Cell GetNewCellState(List<Cell> neighbours, Cell currentCell)
         {
-            var liveNeighbors = neighbours.Count(neighbour => neighbour.IsLive);
+            var liveNeighbors = neighbours.Count(neighbour => neighbour == Cell.Live);
             
-            var cell = new Cell();
-            
-            if (liveNeighbors == 3 || currentCell.IsLive && liveNeighbors == 2)
+            if (liveNeighbors == 3 || currentCell == Cell.Live && liveNeighbors == 2)
             {
-                cell.IsLive = true;
+                return Cell.Live;
             }
 
-            return cell;
+            return Cell.Dead;
         }
     }
 }

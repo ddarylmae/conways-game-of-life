@@ -1,7 +1,7 @@
 namespace ConwaysGameOfLife
 {
-    public class Cell
+    public enum Cell
     {
-        public bool IsLive { get; set; }
+        Dead, Live
     }
 }

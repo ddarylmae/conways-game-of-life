@@ -8,6 +8,5 @@ namespace ConwaysGameOfLife
         Cell GetCellAt(Coordinate coordinate);
         Dimensions GetDimensions();
         void UpdateCellAt(Coordinate coordinate, Cell cell);
-        void SetWorld(string initialState);
     }
 }
