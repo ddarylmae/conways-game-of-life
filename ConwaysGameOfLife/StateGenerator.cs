@@ -8,17 +8,15 @@ namespace ConwaysGameOfLife
     {
         public IWorld GetNextState(IWorld world)
         {
-            var updatedCells = GetUpdatedCells(world);
-
-            world = UpdateWorldState(world, updatedCells);
+            var livingCells = GetLivingCells(world);
             
-            return world;
+            return new World(world.GetDimensions(), livingCells);
         }
 
-        private Dictionary<Coordinate, Cell> GetUpdatedCells(IWorld world)
+        private List<Coordinate> GetLivingCells(IWorld world)
         {
-            var updatedCells = new Dictionary<Coordinate, Cell>();
-            
+            var liveCells = new List<Coordinate>();
+
             var dimensions = world.GetDimensions();
 
             for (int row = 0; row < dimensions.Width; row++)
@@ -31,33 +29,14 @@ namespace ConwaysGameOfLife
                     var neighbours = world.GetNeighboursOfCellAt(currentCoordinate);
 
                     var newCell = GetNewCellState(neighbours, currentCell);
-
-                    if (IsCellStateChanged(currentCell, newCell))
+                    if (newCell == Cell.Live)
                     {
-                        updatedCells.Add(currentCoordinate, newCell);
+                        liveCells.Add(currentCoordinate);
                     }
                 }
             }
 
-            return updatedCells;
-        }
-
-        private bool IsCellStateChanged(Cell oldCell, Cell newCell)
-        {
-            return oldCell != newCell;
-        }
-
-        private IWorld UpdateWorldState(IWorld world, Dictionary<Coordinate,Cell> updatedCells)
-        {
-            foreach (var cell in updatedCells)
-            {
-                var coordinate = cell.Key;
-                var newState = cell.Value;
-                
-                world.UpdateCellAt(coordinate, newState);
-            }
-
-            return world;
+            return liveCells;
         }
 
         private Cell GetNewCellState(List<Cell> neighbours, Cell currentCell)
