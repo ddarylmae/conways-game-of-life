@@ -10,6 +10,11 @@ namespace ConwaysGameOfLife
         public World(Dimensions dimensions, List<Coordinate> livingCells)
         {
             Grid = new Cell[dimensions.Width,dimensions.Length];
+            InitializeWorld(livingCells);
+        }
+
+        private void InitializeWorld(List<Coordinate> livingCells)
+        {
             foreach (var coordinate in livingCells)
             {
                 UpdateCellAt(coordinate, Cell.Live);
@@ -45,11 +50,6 @@ namespace ConwaysGameOfLife
         private int GetIndexFromOffSet(int position, int offset, int boundary)
         {
             return (position + offset + boundary) % boundary;
-        }
-
-        private void InitializeWorldFromLivingCells()
-        {
-            
         }
 
         public Cell GetCellAt(Coordinate coordinate)

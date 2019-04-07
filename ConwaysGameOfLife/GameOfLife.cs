@@ -9,16 +9,16 @@ namespace ConwaysGameOfLife
     public class GameOfLife
     {
         private GridFormatter GridFormatter { get; }
-        private MessageHandler MessageHandler { get; }
         private IWorld World { get; set; }
         private StateGenerator StateGenerator { get; }
+        private IOutputWriter OutputWriter { get; }
         
         public GameOfLife(IInputReader inputReader, IOutputWriter outputWriter)
         {   
             StateGenerator = new StateGenerator();
             var inputProcessor = new InputProcessor(inputReader);
             GridFormatter = new GridFormatter();
-            MessageHandler = new MessageHandler(outputWriter);
+            OutputWriter = outputWriter;
             
             World = inputProcessor.GetWorld();
 
@@ -35,7 +35,7 @@ namespace ConwaysGameOfLife
         private void DisplayInitialGameOutput()
         {
             DisplayWorldState();
-            MessageHandler.DisplayGameGuide();
+            OutputWriter.Write("Press return to see next state...");
         }
 
         public void Step()
@@ -48,7 +48,7 @@ namespace ConwaysGameOfLife
         private void DisplayWorldState()
         {
             var formattedWorld = GridFormatter.Format(World);
-            MessageHandler.DisplayFormattedGrid(formattedWorld);
+            OutputWriter.WriteAtTop(formattedWorld);
         }
     }
 }
