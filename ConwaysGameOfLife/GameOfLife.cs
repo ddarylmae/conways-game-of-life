@@ -10,7 +10,7 @@ namespace ConwaysGameOfLife
         public GameOfLife(IInputReader inputReader, IOutputWriter outputWriter)
         {   
             StateGenerator = new StateGenerator();
-            var inputProcessor = new InputProcessor(inputReader);
+            var inputProcessor = new WorldBuilder(inputReader);
             GridFormatter = new GridFormatter();
             OutputWriter = outputWriter;
             

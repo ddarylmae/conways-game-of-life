@@ -23,12 +23,12 @@ namespace ConwaysGameOfLifeTests
         }
 
         [Fact]
-        public void ShouldDisplayInitialWorldStateAndGameGuideMessage()
+        public void ShouldDisplayInitialWorldStateAndGameGuideMessageOnGameStart()
         {
-            var fileContent = "3,3\n" +
-                              "...\n" +
-                              "...\n" +
-                              "...\n";
+            var fileContent   =  "3,3\n" +
+                                 "...\n" +
+                                 "...\n" +
+                                 "...\n";
             var expectedOutput = "   \n" +
                                  "   \n" +
                                  "   \n";
@@ -42,9 +42,165 @@ namespace ConwaysGameOfLifeTests
         }
         
         [Fact]
-        public void ShouldDisplayCorrectStateAfterThreePlays()
+        public void ShouldDisplayEmptyWorldWhenNoLiveCell()
         {
-            var initialState = "8,6\n" +
+            var fileContent =   "3,3\n" +
+                                "...\n" +
+                                "...\n" +
+                                "...\n";
+            var initialState =  "   \n" +
+                                "   \n" +
+                                "   \n";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   \n";
+
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldBecomeDeadCellWhenLiveCellHasNoLiveNeighbors()
+        {
+            var fileContent =   "3,3\n" +
+                                "...\n" +
+                                ".#.\n" +
+                                "...\n";
+            var initialState =  "   \n" +
+                                " # \n" +
+                                "   \n";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldBecomeDeadCellWhenLiveCellHasOneLiveNeighbor()
+        {
+            var fileContent =  "3,3\n" +
+                                ".#.\n" +
+                                ".#.\n" +
+                                "...\n";
+            var initialState =  " # \n" +
+                                " # \n" +
+                                "   \n";
+            var expectedState = "   \n" +
+                                "   \n" +
+                                "   \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldStayLiveWhenLiveCellHasTwoLiveNeighbors()
+        {
+            var fileContent = "5,5\n" +
+                             ".....\n" +
+                             ".#...\n" +
+                             "..#..\n" +
+                             "...#.\n" + 
+                             ".....\n";
+            var initialState =  "     \n" +
+                                " #   \n" +
+                                "  #  \n" +
+                                "   # \n" + 
+                                "     \n";
+            var expectedState = "     \n" +
+                                "     \n" +
+                                "  #  \n" +
+                                "     \n" + 
+                                "     \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldStayLiveWhenLiveCellHasThreeLiveNeighbors()
+        {
+            var fileContent = "5,5\n" +
+                              ".....\n" +
+                              ".#.#.\n" +
+                              "..#..\n" +
+                              "...#.\n" + 
+                              ".....\n";
+            var initialState =  "     \n" +
+                                " # # \n" +
+                                "  #  \n" +
+                                "   # \n" + 
+                                "     \n";
+            var expectedState = "     \n" +
+                                "  #  \n" +
+                                "  ## \n" +
+                                "     \n" + 
+                                "     \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldBecomeLiveCellWhenDeadCellHasThreeLiveNeighbors()
+        {
+            var fileContent =   "5,5\n" +
+                                ".....\n" +
+                                ".#.#.\n" +
+                                "..##.\n" +
+                                ".....\n" + 
+                                ".....\n";
+            var initialState =  "     \n" +
+                                " # # \n" +
+                                "  ## \n" +
+                                "     \n" + 
+                                "     \n";
+            var expectedState = "     \n" +
+                                "   # \n" +
+                                "  ## \n" +
+                                "     \n" + 
+                                "     \n";
+            
+            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
+
+            InitializeNewGame();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            
+            Game.Step();
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+        }
+        
+        [Fact]
+        public void ShouldDisplayNextStateBasedOnPreviousState()
+        {
+            var fileContent =  "8,6\n" +
                                "......\n" +
                                "......\n" +
                                "...#..\n" +
@@ -53,76 +209,30 @@ namespace ConwaysGameOfLifeTests
                                "...#..\n" +
                                "......\n" + 
                                "......\n";
-            var expectedState =  "      \n" +
-                                 "      \n" +
-                                 "      \n" +
-                                 "  ##  \n" +
-                                 " #    \n" +
-                                 "  ##  \n" +
-                                 "      \n" + 
-                                 "      \n";
-            
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(initialState);
-
-            InitializeNewGame();
-            Game.Step();
-            Game.Step();
-            
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnEmptyWorldWhenNoLiveCell()
-        {
-            var fileContent = "3,3\n" +
-                              "...\n" +
-                              "...\n" +
-                              "...";
-            var expectedState = "   \n" +
-                                "   \n" +
-                                "   \n";
-
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
-
-            InitializeNewGame();
-            Game.Step();
-            
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnEmptyWorldWhenOneLiveCellPresent()
-        {
-            var initialState = "3,3\n" +
-                               "...\n" +
-                               ".#.\n" +
-                               "...";
-            var expectedState = "   \n" +
-                                "   \n" +
-                                "   \n";
-            
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(initialState);
-
-            InitializeNewGame();
-            
-            Game.Step();
-            
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnEmptyWorldWhenTwoLiveCellsPresent()
-        {
-            var fileContent = "3,3\n" +
-                               ".#.\n" +
-                               ".#.\n" +
-                               "...\n";
-            var initialState = " # \n" +
-                               " # \n" +
-                               "   \n";
-            var expectedState = "   \n" +
-                                "   \n" +
-                                "   \n";
+            var initialState = "      \n" +
+                               "      \n" +
+                               "   #  \n" +
+                               "  #   \n" +
+                               "  ##  \n" +
+                               "   #  \n" +
+                               "      \n" + 
+                               "      \n";
+            var stateAfterFirstStep =   "      \n" +
+                                        "      \n" +
+                                        "      \n" +
+                                        "  #   \n" +
+                                        "  ##  \n" +
+                                        "  ##  \n" +
+                                        "      \n" + 
+                                        "      \n";
+            var stateAfterSecondStep =  "      \n" +
+                                        "      \n" +
+                                        "      \n" +
+                                        "  ##  \n" +
+                                        " #    \n" +
+                                        "  ##  \n" +
+                                        "      \n" + 
+                                        "      \n";
             
             _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
 
@@ -130,88 +240,10 @@ namespace ConwaysGameOfLifeTests
             _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnNewStateWhenThreeLiveCellsPresent()
-        {
-            var fileContent = "5,5\n" +
-                             ".....\n" +
-                             ".#...\n" +
-                             "..##.\n" +
-                             ".....\n" + 
-                             ".....\n";
-            var initialState =  "     \n" +
-                                " #   \n" +
-                                "  ## \n" +
-                                "     \n" + 
-                                "     \n";
-            var expectedState = "     \n" +
-                                "  #  \n" +
-                                "  #  \n" +
-                                "     \n" + 
-                                "     \n";
-            
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
-
-            InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(stateAfterFirstStep));
             
             Game.Step();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnNewStateWhen3X3WorldThreeLiveCellsPresent()
-        {
-            var fileContent = "3,3\n" +
-                             "#..\n" +
-                             ".##\n" +
-                             "...\n";
-            var initialState =  "#  \n" +
-                                " ##\n" +
-                                "   \n";
-            var expectedState = "###\n" +
-                                "###\n" +
-                                "###\n";
-            
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
-
-            InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
-            
-            Game.Step();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
-        }
-        
-        [Fact]
-        public void ShouldReturnNewStateWhenFourLiveCellsPresent()
-        {
-            var fileContent = "5,5\n" +
-                             ".....\n" +
-                             ".#...\n" +
-                             ".###.\n" +
-                             ".....\n" + 
-                             ".....\n";
-            var initialState =  "     \n" +
-                                " #   \n" +
-                                " ### \n" +
-                                "     \n" + 
-                                "     \n";
-            var expectedState = "     \n" +
-                                " #   \n" +
-                                " ##  \n" +
-                                "  #  \n" + 
-                                "     \n";
-            
-            _mockInputReader.Setup(reader => reader.GetStringContent()).Returns(fileContent);
-
-            InitializeNewGame();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(initialState));
-            
-            Game.Step();
-            _mockOutputWriter.Verify(writer => writer.WriteAtTop(expectedState));
+            _mockOutputWriter.Verify(writer => writer.WriteAtTop(stateAfterSecondStep));
         }
     }
 }

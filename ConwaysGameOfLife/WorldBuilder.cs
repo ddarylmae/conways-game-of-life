@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace ConwaysGameOfLife
 {
-    public class InputProcessor
+    public class WorldBuilder
     {
         private readonly IInputReader _inputReader;
 
-        public InputProcessor(IInputReader reader)
+        public WorldBuilder(IInputReader reader)
         {
             _inputReader = reader;
         }
