@@ -8,12 +8,12 @@ namespace ConwaysGameOfLife
     {
         public IWorld GetNextState(IWorld world)
         {
-            var livingCells = GetLivingCells(world);
+            var liveCells = GetNextGenerationLiveCells(world);
             
-            return new World(world.GetDimensions(), livingCells);
+            return new World(world.GetDimensions(), liveCells);
         }
 
-        private List<Coordinate> GetLivingCells(IWorld world)
+        private List<Coordinate> GetNextGenerationLiveCells(IWorld world)
         {
             var liveCells = new List<Coordinate>();
 
@@ -24,12 +24,9 @@ namespace ConwaysGameOfLife
                 for (int column = 0; column < dimensions.Length; column++)
                 {
                     var currentCoordinate = new Coordinate(row, column);
-                    var currentCell = world.GetCellAt(currentCoordinate);
-
-                    var neighbours = world.GetNeighboursOfCellAt(currentCoordinate);
-
-                    var newCell = GetNewCellState(neighbours, currentCell);
-                    if (newCell == Cell.Live)
+                    var newCellState = GetNewCellState(currentCoordinate, world);
+                    
+                    if (newCellState == Cell.Live)
                     {
                         liveCells.Add(currentCoordinate);
                     }
@@ -38,9 +35,11 @@ namespace ConwaysGameOfLife
 
             return liveCells;
         }
-
-        private Cell GetNewCellState(List<Cell> neighbours, Cell currentCell)
+        
+        private Cell GetNewCellState(Coordinate coordinate, IWorld world)
         {
+            var currentCell = world.GetCellAt(coordinate);
+            var neighbours = world.GetNeighboursOfCellAt(coordinate);
             var liveNeighbors = neighbours.Count(neighbour => neighbour == Cell.Live);
             
             if (liveNeighbors == 3 || currentCell == Cell.Live && liveNeighbors == 2)
